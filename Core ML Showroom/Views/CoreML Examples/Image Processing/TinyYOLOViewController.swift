@@ -9,37 +9,12 @@
 import UIKit
 import AVKit
 import Vision
+import Accelerate
 
 class TinyYOLOViewController: ModelViewController, AVCaptureVideoDataOutputSampleBufferDelegate {
+    
+    let captureSession = AVCaptureSession()
 
-    let resultVisualEffectView : UIVisualEffectView = {
-        let view = UIVisualEffectView()
-        view.effect = UIBlurEffect(style: .dark)
-        view.layer.cornerRadius = 10
-        view.layer.masksToBounds = true
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
-    }()
-    
-    let resultView : UIView = {
-        let view = UIView()
-        view.backgroundColor = UIColor(red: 0/255, green: 0/255, blue: 0/255, alpha: 0.1)
-        view.layer.cornerRadius = 10
-        view.layer.masksToBounds = true
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
-    }()
-    
-    let resultLabel : UILabel = {
-        let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 19, weight: UIFont.Weight.regular)
-        label.textColor = .white
-        label.textAlignment = .center
-        label.numberOfLines = 0
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
-    
     let titleLabel : UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 19, weight: UIFont.Weight.semibold)
@@ -58,16 +33,6 @@ class TinyYOLOViewController: ModelViewController, AVCaptureVideoDataOutputSampl
         view.layer.masksToBounds = true
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
-    }()
-    
-    let percentageLabel : UILabel = {
-        let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 36, weight: UIFont.Weight.light)
-        label.textColor = .white
-        label.textAlignment = .center
-        label.numberOfLines = 0
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
     }()
     
     let closeButtonBlurEffect : UIVisualEffectView = {
@@ -127,54 +92,15 @@ class TinyYOLOViewController: ModelViewController, AVCaptureVideoDataOutputSampl
         
         let dataOutput = AVCaptureVideoDataOutput()
         dataOutput.setSampleBufferDelegate(self, queue: DispatchQueue(label: "cameraQueue"))
+        dataOutput.videoSettings = [ kCVPixelBufferPixelFormatTypeKey as String: NSNumber(value: kCVPixelFormatType_32BGRA) ]
         captureSession.addOutput(dataOutput)
     }
     
     func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
         
-        guard let pixelBuffer : CVPixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) else {return}
-        guard let model = try? VNCoreMLModel(for: TinyYOLO().model) else {return}
-        let request = VNCoreMLRequest(model: model) { (finishedRequest, err) in
-            if let err = err {
-                print(err)
-            }
-            
-            guard let results = finishedRequest.results as? [VNClassificationObservation] else { return }
-            print(results)
-            
-            guard let firstResult = results.first else {return}
-            DispatchQueue.main.async {
-                self.resultLabel.text = "\(firstResult.identifier)".capitalized
-                self.percentageLabel.text = "\(round(firstResult.confidence * 100)) %"
-            }
-        }
-        try? VNImageRequestHandler(cvPixelBuffer: pixelBuffer, options: [:]).perform([request])
     }
     
     func setupView(){
-        view.addSubview(resultVisualEffectView)
-        resultVisualEffectView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -40).isActive = true
-        resultVisualEffectView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        resultVisualEffectView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20).isActive = true
-        resultVisualEffectView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20).isActive = true
-        
-        resultVisualEffectView.contentView.addSubview(resultView)
-        resultView.topAnchor.constraint(equalTo: resultVisualEffectView.contentView.topAnchor, constant: 10).isActive = true
-        resultView.leadingAnchor.constraint(equalTo: resultVisualEffectView.contentView.leadingAnchor, constant: 10).isActive = true
-        resultView.trailingAnchor.constraint(equalTo: resultVisualEffectView.contentView.trailingAnchor, constant: -10).isActive = true
-        
-        resultView.addSubview(resultLabel)
-        resultLabel.topAnchor.constraint(equalTo: resultView.topAnchor, constant: 6).isActive = true
-        resultLabel.bottomAnchor.constraint(equalTo: resultView.bottomAnchor, constant: -6).isActive = true
-        resultLabel.leadingAnchor.constraint(equalTo: resultView.leadingAnchor, constant: 6).isActive = true
-        resultLabel.trailingAnchor.constraint(equalTo: resultView.trailingAnchor, constant: -6).isActive = true
-        
-        resultVisualEffectView.contentView.addSubview(percentageLabel)
-        percentageLabel.bottomAnchor.constraint(equalTo: resultVisualEffectView.contentView.bottomAnchor, constant: -10).isActive = true
-        percentageLabel.topAnchor.constraint(equalTo: resultView.bottomAnchor, constant: 10).isActive = true
-        percentageLabel.leadingAnchor.constraint(equalTo: resultVisualEffectView.contentView.leadingAnchor, constant: 10).isActive = true
-        percentageLabel.trailingAnchor.constraint(equalTo: resultVisualEffectView.contentView.trailingAnchor, constant: -10).isActive = true
-        
         let stackTop = UIStackView(arrangedSubviews: [closeButtonBlurEffect ,titleVisualEffectView, infoButtonBlurEffect])
         stackTop.distribution = .fillProportionally
         stackTop.spacing = 6
@@ -205,6 +131,7 @@ class TinyYOLOViewController: ModelViewController, AVCaptureVideoDataOutputSampl
     }
     
     @objc func closeTapped() {
+        captureSession.stopRunning()
         dismiss(animated: true, completion: nil)
     }
     

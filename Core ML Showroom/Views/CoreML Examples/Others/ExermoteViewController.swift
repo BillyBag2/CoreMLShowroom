@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ExermoteViewController: UIViewController {
+class ExermoteViewController: ModelViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()

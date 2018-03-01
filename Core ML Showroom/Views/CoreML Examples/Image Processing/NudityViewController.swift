@@ -11,6 +11,8 @@ import AVKit
 import Vision
 
 class NudityViewController: ModelViewController, AVCaptureVideoDataOutputSampleBufferDelegate {
+    
+    let captureSession = AVCaptureSession()
 
     let resultVisualEffectView : UIVisualEffectView = {
         let view = UIVisualEffectView()
@@ -204,6 +206,7 @@ class NudityViewController: ModelViewController, AVCaptureVideoDataOutputSampleB
     }
     
     @objc func closeTapped() {
+        captureSession.stopRunning()
         dismiss(animated: true, completion: nil)
     }
     

@@ -12,6 +12,7 @@ import Vision
 import MapKit
 
 class RN1015k500ViewController: ModelViewController, AVCaptureVideoDataOutputSampleBufferDelegate {
+    let captureSession = AVCaptureSession()
 
     let resultVisualEffectView : UIVisualEffectView = {
         let view = UIVisualEffectView()
@@ -224,6 +225,7 @@ class RN1015k500ViewController: ModelViewController, AVCaptureVideoDataOutputSam
     }
     
     @objc func closeTapped() {
+        captureSession.stopRunning()
         dismiss(animated: true, completion: nil)
     }
     

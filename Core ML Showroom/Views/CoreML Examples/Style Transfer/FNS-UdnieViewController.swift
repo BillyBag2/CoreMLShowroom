@@ -8,7 +8,7 @@
 
 import UIKit
 
-class FNS_UdnieViewController: UIViewController {
+class FNS_UdnieViewController: ModelViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()

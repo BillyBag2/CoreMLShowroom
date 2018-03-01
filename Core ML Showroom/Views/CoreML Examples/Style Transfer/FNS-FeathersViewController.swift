@@ -8,7 +8,7 @@
 
 import UIKit
 
-class FNS_FeathersViewController: UIViewController {
+class FNS_FeathersViewController: ModelViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()

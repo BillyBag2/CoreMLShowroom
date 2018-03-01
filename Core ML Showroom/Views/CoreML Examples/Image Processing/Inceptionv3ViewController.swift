@@ -11,6 +11,8 @@ import AVKit
 import Vision
 
 class Inceptionv3ViewController: ModelViewController, AVCaptureVideoDataOutputSampleBufferDelegate {
+    
+    let captureSession = AVCaptureSession()
 
     let resultVisualEffectView : UIVisualEffectView = {
         let view = UIVisualEffectView()
@@ -204,6 +206,7 @@ class Inceptionv3ViewController: ModelViewController, AVCaptureVideoDataOutputSa
     }
     
     @objc func closeTapped() {
+        captureSession.stopRunning()
         dismiss(animated: true, completion: nil)
     }
     

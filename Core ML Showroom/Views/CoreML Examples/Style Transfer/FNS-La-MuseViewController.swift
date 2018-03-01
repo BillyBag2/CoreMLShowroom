@@ -8,7 +8,7 @@
 
 import UIKit
 
-class FNS_La_MuseViewController: UIViewController {
+class FNS_La_MuseViewController: ModelViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()

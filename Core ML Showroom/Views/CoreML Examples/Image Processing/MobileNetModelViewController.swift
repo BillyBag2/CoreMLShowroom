@@ -12,6 +12,8 @@ import Vision
 
 class MobileNetModelViewController: ModelViewController, AVCaptureVideoDataOutputSampleBufferDelegate {
     
+    let captureSession = AVCaptureSession()
+    
     let resultVisualEffectView : UIVisualEffectView = {
         let view = UIVisualEffectView()
         view.effect = UIBlurEffect(style: .dark)
@@ -204,6 +206,7 @@ class MobileNetModelViewController: ModelViewController, AVCaptureVideoDataOutpu
     }
     
     @objc func closeTapped() {
+        captureSession.stopRunning()
         dismiss(animated: true, completion: nil)
     }
     

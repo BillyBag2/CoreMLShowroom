@@ -8,7 +8,7 @@
 
 import UIKit
 
-class GestureAIViewController: UIViewController {
+class GestureAIViewController: ModelViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()

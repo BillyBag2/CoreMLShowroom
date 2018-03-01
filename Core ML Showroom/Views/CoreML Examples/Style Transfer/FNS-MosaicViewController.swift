@@ -8,7 +8,7 @@
 
 import UIKit
 
-class FNS_MosaicViewController: UIViewController {
+class FNS_MosaicViewController: ModelViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()

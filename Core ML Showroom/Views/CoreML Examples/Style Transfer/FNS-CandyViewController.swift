@@ -8,7 +8,7 @@
 
 import UIKit
 
-class FNS_CandyViewController: UIViewController {
+class FNS_CandyViewController: ModelViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()

@@ -8,7 +8,7 @@
 
 import UIKit
 
-class NamesDTViewController: UIViewController {
+class NamesDTViewController: ModelViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()

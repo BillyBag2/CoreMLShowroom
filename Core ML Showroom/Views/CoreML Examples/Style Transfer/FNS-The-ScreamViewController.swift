@@ -8,7 +8,7 @@
 
 import UIKit
 
-class FNS_The_ScreamViewController: UIViewController {
+class FNS_The_ScreamViewController: ModelViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()

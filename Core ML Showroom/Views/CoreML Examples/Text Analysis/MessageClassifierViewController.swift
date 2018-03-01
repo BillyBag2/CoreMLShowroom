@@ -8,7 +8,7 @@
 
 import UIKit
 
-class MessageClassifierViewController: UIViewController {
+class MessageClassifierViewController: ModelViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()

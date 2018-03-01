@@ -11,6 +11,8 @@ import AVKit
 import Vision
 
 class GoogLeNetPlacesViewController: ModelViewController, AVCaptureVideoDataOutputSampleBufferDelegate {
+    
+    let captureSession = AVCaptureSession()
 
     let resultVisualEffectView : UIVisualEffectView = {
         let view = UIVisualEffectView()
@@ -204,6 +206,7 @@ class GoogLeNetPlacesViewController: ModelViewController, AVCaptureVideoDataOutp
     }
     
     @objc func closeTapped() {
+        captureSession.stopRunning()
         dismiss(animated: true, completion: nil)
     }
     

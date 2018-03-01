@@ -8,7 +8,7 @@
 
 import UIKit
 
-class AnimeScale2xViewController: UIViewController {
+class AnimeScale2xViewController: ModelViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()

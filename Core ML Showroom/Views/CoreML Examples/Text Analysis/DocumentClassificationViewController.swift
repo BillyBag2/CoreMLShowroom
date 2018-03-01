@@ -8,7 +8,7 @@
 
 import UIKit
 
-class DocumentClassificationViewController: UIViewController {
+class DocumentClassificationViewController: ModelViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
